@@ -1,0 +1,67 @@
+.TodoModal {
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .wrapper {
+      position: absolute;
+      background-color: #f1f3f5;
+      width: 80%;
+      height: 70%;
+      border-radius: 5px;
+      margin-top: 10%;
+      padding: 30px;
+  }
+  
+  .header {
+      display: flex;
+  }
+  
+  .header h3 {
+      flex: 1
+  }
+  
+  .button { 
+      font-size: 1.5rem;
+      float: left;
+      outline: none;
+      border: none;
+      background: rgba(0, 0, 0, 0);  
+  }
+  
+  .content {
+      margin-top: 10px;
+  }
+  .title{
+      font-size: 1.25rem;
+      outline-color: #ffc9c9;
+      border: none;
+      border-radius: 3px;
+      width: 90%;
+      height: 30px;
+  }
+  
+  .body {
+      font-size: 15px;
+      outline-color: #ffc9c9;
+      border: none;
+      border-radius: 3px;
+      width: 90%;
+      height: 100px;
+      word-wrap: break-word;
+  }
+  
+  .submit {
+      position: absolute;
+      bottom: 20px;
+      font-size: 20px;
+      outline: none;
+      border: none;
+      background: rgba(0, 0, 0, 0);
+      color: #ffc9c9;
+  }
