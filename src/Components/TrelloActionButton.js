@@ -33,7 +33,7 @@ const TrelloActionButton = ({list, listID}) => {
             if(text) {
                 dispatch(addList(text))
                 setText('')
-                setState(false)
+                setState(false) // 입력창 닫기 
             }
             return;
         }
@@ -42,6 +42,7 @@ const TrelloActionButton = ({list, listID}) => {
             if(text) {
                 dispatch(addCard({listID, text}))
                 setText('')
+                setState(false) // 입력창 닫기 
             }
             return;
         }
@@ -55,15 +56,10 @@ const TrelloActionButton = ({list, listID}) => {
                 </Card> 
                 <div style={styles.formButtonGroup}> 
                     <Button style={styles.Button} variant="contained"
-                    // textbox 이외의 공간 클릭 시 창 닫는다.
-                    onBlur={()=>{setState(false)}}
-                    //onClick 의 경우 onBlur 후에 작동 -> 창 이미 닫힘
-                    //onMouseDown 의 경우 onBlur 보다 먼저 작동
-                    // props로 list가 들어오면 list를 아니면 card 추가하기 
-                    onMouseDown={list ? handleAddList : handleAddCard}>
+                    onClick={list ? handleAddList : handleAddCard}>
                         {buttonTitle}
                     </Button> 
-                    <Icon>close</Icon> 
+                    <Icon onClick={() => {setState(false)}}>close</Icon>
                 </div> 
             </div>
         )
