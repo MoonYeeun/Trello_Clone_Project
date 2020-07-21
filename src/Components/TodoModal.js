@@ -34,12 +34,12 @@ class TodoModal extends Component {
                 <form className="wrapper">
                     <div className="header">
                         <div className="icon">&#x214F;</div>
-                        <input className="title" name="text" value = {text} onChange = {this.handleChange}></input>
+                        <input className="title" name="text" value={text} onChange = {this.handleChange}></input>
                         <div className="button" onClick={this.handleSubmit}>&#10005;</div>
                     </div>
                     <div className="content">
                         <div className="bodyTitle">&#9776; Description</div>
-                        <textarea className="body" name="body" value = {body} onChange = {this.handleChange}></textarea>
+                        <textarea className="body" name="body" value={body} onChange = {this.handleChange}></textarea>
                     </div>
                     <div className="content">
                         <div className="bodyTitle">&#9776; Activity</div>
