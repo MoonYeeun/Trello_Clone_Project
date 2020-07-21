@@ -5,49 +5,48 @@ import Button from '@material-ui/core/Button'
 import Textarea from 'react-textarea-autosize'
 import Typography from '@material-ui/core/Typography'; 
 import CardContent from '@material-ui/core/CardContent';
-import './TrelloCard.css';
+import '../css/TrelloCard.css';
 import TodoModal from './TodoModal';
 import Modal from './Modal';
 import { editCard, deleteCard } from '../actions'
 import { useDispatch } from 'react-redux';
+import { Draggable } from 'react-beautiful-dnd';
 
-const TrelloCard = ({ listID, cardID, text, body }) => {
+const TrelloCard = ({ index, listID, cardID, cardTitle, cardBody }) => {
     const [modal, setModal] = useState(false); 
     const [isEdit, setEdit] = useState(false); 
-    const [cardText, setUpdate] = useState(text); 
+    const [text, setUpdate] = useState(cardTitle); 
     const dispatch = useDispatch()
 
     const handleModal = () => {
         setModal(!modal)
     }
 
+    const handleEditCard = (text, body) => {
+        console.log(text + " " + body);
+        if(text) {
+            dispatch(editCard({listID, cardID, text, body}))
+            setEdit(false)
+        }
+        return;
+    }
+
     // 수정 모드  
     const editMode = () => {
-        const titleText = text;
-        
         const handleTitleUpdate = ({target}) => {
             setUpdate(target.value)
         }
 
-        const handleEditCard = () => {
-            console.log(cardText);
-            if(cardText) {
-                dispatch(editCard({listID, cardID, cardText}))
-                setEdit(false)
-            }
-            return;
-        }
-
         return ( 
             <div> 
-                <Card style={styles.Card}> 
-                    <Textarea style={styles.Textarea} placeholder={titleText} 
-                    autoFocus value={cardText}
+                <Card className="Card"> 
+                    <Textarea className="Textarea" placeholder={text} 
+                    autoFocus value={text}
                     onChange={handleTitleUpdate}/> 
                 </Card> 
-                <div style={styles.formButtonGroup}> 
+                <div className="formButtonGroup"> 
                     <Button style={styles.Button} variant="contained"
-                    onClick={() => handleEditCard()}>
+                    onClick={() => handleEditCard(text, cardBody)}>
                         SAVE
                     </Button> 
                     <Icon onClick={() => {setEdit(false)}}>close</Icon> 
@@ -57,30 +56,39 @@ const TrelloCard = ({ listID, cardID, text, body }) => {
     } 
     // 읽기 모드 
     const readMode = () => {
-
-        console.log(listID + " " + cardID + " " + text);
-
         const handleDeleteCard = () => {
             dispatch(deleteCard({listID, cardID}))
         }
 
         return (
-            <Card style = {styles.CardContainer}>
-                <div className="todo-item">
-                    <div className="remove" onClick={() => handleDeleteCard()}>&times;</div>
-                    <CardContent className="todo-text" onClick={() => handleModal()}>
-                        <Typography gutterBottom>{text}</Typography>
-                    </CardContent>
-                    {
-                        modal && (
-                            <Modal>
-                                <TodoModal handleModal={handleModal} title={text} body={body}></TodoModal>
-                            </Modal>
-                        )
-                    }
-                    <div className="update" onClick={() => {setEdit(true)}}>&#9998;</div> 
-                </div>
-            </Card>
+            // Drag 가능하도록 Draggable 컨테이너로 감싸준다.
+            // dragHandleProps : 드래그가 가능한 위치 지정(마우스커서로 어디를 집어야 하는지 지정)
+            <Draggable draggableId={String(cardID)} index={index}>
+                {provided => (
+                    <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                        <Card className="CardContainer">
+                            <div className="todo-item">
+                                <div className="remove" onClick={() => handleDeleteCard()}>&times;</div>
+                                <CardContent className="todo-text" onClick={() => handleModal()}>
+                                    <Typography gutterBottom>{cardTitle}</Typography>
+                                </CardContent>
+                                {
+                                    modal && (
+                                        <Modal>
+                                            <TodoModal 
+                                                handleModal={handleModal}
+                                                handleEditCard={handleEditCard} 
+                                                cardTitle={cardTitle} 
+                                                cardBody={cardBody}></TodoModal>
+                                        </Modal>
+                                    )
+                                }
+                                <div className="update" onClick={() => {setEdit(true)}}>&#9998;</div> 
+                            </div>
+                        </Card>
+                    </div>
+                )}
+            </Draggable>
         );
     }
 
@@ -90,45 +98,10 @@ const TrelloCard = ({ listID, cardID, text, body }) => {
 }
 
 const styles = { 
-    CardContainer: {
-        marginBottom: 10
-    },
-
-    openFormButtonGroup:{ 
-        display:"flex", 
-        alignItems:"center", 
-        cursor:"pointer", 
-        borderRadius:3, 
-        height:36, 
-        width:272, 
-        paddingLeft:10 
-    }, 
-    Card: {
-        overflow:"visible", 
-        minHeight:80, 
-        minWidth:272, 
-        padding:"6px 8px 2px"
-    },
-    Textarea: { 
-        resize:"none", 
-        overflow:"hidden", 
-        outline:"none", 
-        border:"none", 
-        width:"100%" 
-    }, 
     Button: {
         color:"white", 
         backgroundColor: "#5aac44",
         marginBottom: 10
-    },
-    Icon: {
-        marginLeft:8, 
-        cursor:"pointer"
-    },
-    formButtonGroup:{ 
-        marginTop:8, 
-        display:"flex", 
-        alignItems:"center" 
     }
 }
 

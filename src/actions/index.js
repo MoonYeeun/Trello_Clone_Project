@@ -2,12 +2,36 @@
 // export * from "./cardsAction";
 // export * from "./editAction";
 
+/*
+dispatch로 액션을 발생시키면
+각 액션함수를 통해 파라미터에 쓴 값이 들어오게 될 것
+*/
 export const CONSTANTS = {
     ADD_CARD: "ADD_CARD",
     ADD_LIST: "ADD_LIST",
     EDIT_CARD: "EDIT_CARD",
-    DELETE_CARD: "DELETE_CARD"
+    DELETE_CARD: "DELETE_CARD",
+    DRAG_HAPPENED: "DRAG_HAPPENED"
 };
+
+export const sort = (
+    droppableIdStart,
+    droppableIdEnd,
+    droppableIndexStart,
+    droppableIndexEnd,
+    draggableId
+) => {
+    return {
+        type: CONSTANTS.DRAG_HAPPENED,
+        payload: {
+            droppableIdStart,
+            droppableIdEnd,
+            droppableIndexStart,
+            droppableIndexEnd,
+            draggableId
+        }
+    }
+}
 
 export const addCard = ({listID, text}) => {
     return {
@@ -21,10 +45,10 @@ export const addList = title => {
         payload: title
     };
 };
-export const editCard = ({listID, cardID, cardText}) => {
+export const editCard = ({listID, cardID, text, body}) => {
     return {
         type: CONSTANTS.EDIT_CARD,
-        payload: {listID, cardID, cardText}
+        payload: {listID, cardID, text, body}
     };
 }
 export const deleteCard = ({listID, cardID}) => {

@@ -13,7 +13,7 @@
       background-color: #f1f3f5;
       width: 80%;
       height: 70%;
-      border-radius: 5px;
+      border-radius: 3px;
       margin-top: 10%;
       padding: 30px;
   }
@@ -22,32 +22,48 @@
       display: flex;
   }
   
-  .header h3 {
-      flex: 1
+  .header input {
+      flex: 1;
+      border: #ffc9c9;
+      background-color: #f1f3f5;
+      margin-left: 10px;
+      margin-right: 10px;
   }
   
-  .button { 
+  .icon {
       font-size: 1.5rem;
-      float: left;
+  }
+  .button { 
+      font-size: 1.3rem;
       outline: none;
       border: none;
       background: rgba(0, 0, 0, 0);  
   }
   
   .content {
-      margin-top: 10px;
+      margin-top: 30px;
   }
   .title{
       font-size: 1.25rem;
+      background-color: #f1f3f5;
       outline-color: #ffc9c9;
       border: none;
       border-radius: 3px;
       width: 90%;
       height: 30px;
   }
-  
+
+  .bodyTitle {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #212529;
+      margin-bottom: 10px;
+  }
+
   .body {
+      margin-left: 13px;
       font-size: 15px;
+      background-color: #f1f3f5;
       outline-color: #ffc9c9;
       border: none;
       border-radius: 3px;

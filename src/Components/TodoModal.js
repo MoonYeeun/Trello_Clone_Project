@@ -1,10 +1,10 @@
 import React, { Component} from 'react';
-import './TodoModal.css';
+import '../css/TodoModal.css';
 
 class TodoModal extends Component {
     state = {
-        title: this.props.title,
-        body: this.props.body
+        text: this.props.cardTitle,
+        body: this.props.cardBody
     }
 
     handleChange = (e) => {
@@ -16,32 +16,34 @@ class TodoModal extends Component {
     }
 
     handleSubmit = () => {
-        const { onCreate } = this.props;
+        const { text, body } = this.state;
+        const { cardTitle, cardBody, handleEditCard, handleModal } = this.props;
 
-        const data = {
-            title: this.state.title,
-            body: this.state.body
+        // 변경 사항 있을 경우 
+        if(text !== cardTitle || body !== cardBody ) {
+            handleEditCard(text, body);
         }
-        onCreate(data);
+        handleModal();
     }
 
     render() {
-        const {handleModal} = this.props;
+        const { text, body } = this.state;
 
         return (
             <div className="TodoModal">
                 <form className="wrapper">
                     <div className="header">
-                        <h3>할 일 목록</h3>
-                        <button className="button" onClick={() => {handleModal()}}>&times;</button>
+                        <div className="icon">&#x214F;</div>
+                        <input className="title" name="text" value = {text} onChange = {this.handleChange}></input>
+                        <div className="button" onClick={this.handleSubmit}>&#10005;</div>
                     </div>
                     <div className="content">
-                        <p>Title</p>
-                        <input className="title" name="title" value = {this.state.title} onChange = {this.handleChange}></input>
-                        <p>Description</p>
-                        <textarea className="body" name="body" value = {this.state.body} onChange = {this.handleChange}></textarea>
+                        <div className="bodyTitle">&#9776; Description</div>
+                        <textarea className="body" name="body" value = {body} onChange = {this.handleChange}></textarea>
                     </div>
-                    <button className="submit" type="submit">ok</button>  
+                    <div className="content">
+                        <div className="bodyTitle">&#9776; Activity</div>
+                    </div>
                 </form>
             </div>
         )
